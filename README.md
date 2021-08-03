@@ -83,14 +83,14 @@ python3.7 -m venv venv
 
 ## Install and configure PostgreSQL
 
-Install PostgreSQL 11 and configure locales.
+Install PostgreSQL 12 and configure locales.
 
 ```
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - ; \
 RELEASE=$(lsb_release -cs) ; \
 echo "deb http://apt.postgresql.org/pub/repos/apt/ ${RELEASE}"-pgdg main | sudo tee  /etc/apt/sources.list.d/pgdg.list ; \
 sudo apt update ; \
-sudo apt -y install postgresql-11 ; \
+sudo apt -y install postgresql-12 ; \
 sudo localedef ru_RU.UTF-8 -i ru_RU -fUTF-8 ; \
 export LANGUAGE=ru_RU.UTF-8 ; \
 export LANG=ru_RU.UTF-8 ; \
@@ -113,7 +113,7 @@ Change `postges` password, create clear database named `dbms_db`:
 ```
 sudo passwd postgres
 su - postgres
-export PATH=$PATH:/usr/lib/postgresql/11/bin
+export PATH=$PATH:/usr/lib/postgresql/12/bin
 createdb --encoding UNICODE dbms_db --username postgres
 exit
 ```
@@ -150,6 +150,16 @@ Run SQL dump, if you have:
 
 ```
 psql -h localhost dbms_db dbms  < dump.sql
+```
+
+If you need access to db from PG Admin or something like this:
+
+```
+nano /etc/postgresql/12/main/postgresql.conf
+# change the line - listen_addresses = '*'
+nano /etc/postgresql/12/main/pg_hba.conf
+# type after - # TYPE  DATABASE        USER            ADDRESS                 METHOD
+# this - host    all             nodir           0.0.0.0/0               md5
 ```
 
 ## Install and configure supervisor
