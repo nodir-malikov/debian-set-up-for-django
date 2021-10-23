@@ -48,9 +48,9 @@ mkdir ~/code
 Build from source python 3.9, install with prefix to ~/.python folder:
 
 ```
-wget https://www.python.org/ftp/python/3.9.6/Python-3.9.6.tgz ; \
-tar xvf Python-3.9.* ; \
-cd Python-3.9.6 ; \
+wget https://www.python.org/ftp/python/3.10.0/Python-3.10.0.tgz ; \
+tar xvf Python-3.10.* ; \
+cd Python-3.10.0 ; \
 mkdir ~/.python ; \
 ./configure --enable-optimizations --prefix=/home/www/.python ; \
 make -j8 ; \
