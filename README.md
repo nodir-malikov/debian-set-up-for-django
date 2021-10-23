@@ -174,7 +174,6 @@ sudo apt install supervisor
 vim /home/www/code/project/bin/start_gunicorn.sh
 	#!/bin/bash
 	source /home/www/code/project/env/bin/activate
-	source /home/www/code/project/env/bin/postactivate
 	exec gunicorn  -c "/home/www/code/project/gunicorn_config.py" project.wsgi
 
 chmod +x /home/www/code/project/bin/start_gunicorn.sh
