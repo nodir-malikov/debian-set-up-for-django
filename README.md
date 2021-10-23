@@ -64,8 +64,8 @@ vim ~/.zshrc
     alias cls="clear"
     export PATH=$PATH:/home/www/.python/bin
 ```
-
-Now python3.9 in `/home/www/.python/bin/python3.9`. Update pip:
+Then run `. ~/.zshrc`
+Now python3.10 in `/home/www/.python/bin/python3.10`. Update pip:
 
 ```
 sudo python3.9 -m pip install -U pip
