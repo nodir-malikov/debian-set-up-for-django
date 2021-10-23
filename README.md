@@ -99,6 +99,8 @@ sudo locale-gen ru_RU.UTF-8 ; \
 sudo dpkg-reconfigure locales
 ```
 
+Add [arch=amd64] after "deb" if Ubuntu
+
 Add locales to `/etc/profile`:
 
 ```
