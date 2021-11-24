@@ -41,11 +41,11 @@ Install [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh):
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 ```
 
-## Install python 3.9
+## Install python 3.10
 
 mkdir ~/code
 
-Build from source python 3.9, install with prefix to ~/.python folder:
+Build from source python 3.10, install with prefix to ~/.python folder:
 
 ```
 wget https://www.python.org/ftp/python/3.10.0/Python-3.10.0.tgz ; \
@@ -68,7 +68,7 @@ Then run `. ~/.zshrc`
 Now python3.10 in `/home/www/.python/bin/python3.10`. Update pip:
 
 ```
-sudo python3.9 -m pip install -U pip
+sudo python3.10 -m pip install -U pip
 ```
 
 Ok, now we can pull our project from Git repository (or create own), create and activate Python virtual environment:
@@ -77,7 +77,7 @@ Ok, now we can pull our project from Git repository (or create own), create and 
 cd code
 git pull project_git
 cd project_dir
-python3.7 -m venv venv
+python3.10 -m venv venv
 . ./env/bin/activate
 ```
 
