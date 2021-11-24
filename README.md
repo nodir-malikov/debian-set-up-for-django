@@ -78,7 +78,7 @@ Then run `. ~/.zshrc`
 Now python3.10 in `/home/www/.python/bin/python3.10`. Update pip:
 
 ```
-sudo /home/www/.python/bin/python3.10 -m pip install -U pip
+sudo python3.10 -m pip install -U pip
 ```
 
 Ok, now we can pull our project from Git repository (or create own), create and activate Python virtual environment:
