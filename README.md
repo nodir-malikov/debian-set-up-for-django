@@ -15,6 +15,16 @@ sudo apt-get install -y vim mosh tmux htop git curl wget unzip zip gcc build-ess
 
 Configure SSH:
 
+Type this and press only Enter:
+```
+sudo ssh-keygen
+```
+Then run this:
+```
+sudo ssh-keygen
+sudo ssh-copy-id www@SERVER_IP
+```
+Then:
 ```
 sudo vim /etc/ssh/sshd_config
     AllowUsers www
