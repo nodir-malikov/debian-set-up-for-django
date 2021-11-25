@@ -201,6 +201,19 @@ sudo nano /etc/pgbouncer/pgbouncer.ini
 	admin_users = dbms
 ```
 
+Get md5 hash:
+
+```
+echo "md5"$(echo -n 'Passworddbms' | md5sum | awk '{print $1}')
+```
+
+Edit this:
+
+```
+sudo nano /etc/pgbouncer/userlist.txt
+	"dbms" "yourhash"
+```
+
 ## Install and configure supervisor
 
 Now recommended way is using Systemd instead of supervisor. If you need supervisor — welcome:
