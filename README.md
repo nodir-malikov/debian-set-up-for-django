@@ -27,7 +27,6 @@ sudo ssh-keygen
 ```
 Then run this:
 ```
-sudo ssh-keygen
 sudo ssh-copy-id www@SERVER_IP
 ```
 Then:
