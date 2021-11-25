@@ -6,7 +6,13 @@ In this guide we will set up clean Debian server for Python and Django projects.
 
 ## Create user, setup SSH
 
-Connect through SSH to remote Debian server and update repositories and install some initial needed packages:
+Connect through SSH to remote Debian server and create user 'www' if not exists
+```
+sudo adduser www
+sudo usermod -aG sudo www
+```
+
+Update repositories and install some initial needed packages:
 
 ```
 sudo apt-get update ; \
