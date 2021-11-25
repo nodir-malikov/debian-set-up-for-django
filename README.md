@@ -214,6 +214,12 @@ sudo nano /etc/pgbouncer/userlist.txt
 	"dbms" "yourhash"
 ```
 
+Restart PGBouncer:
+
+```
+sudo service pgbouncer restart
+```
+
 ## Install and configure supervisor
 
 Now recommended way is using Systemd instead of supervisor. If you need supervisor — welcome:
