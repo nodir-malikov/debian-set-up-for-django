@@ -303,6 +303,8 @@ sudo cp -r /etc/letsencrypt/archive/your_cert_name /home/yourpath
 Now you must to concatinate Fullchain and Privatekey files to one smth.pem file and upload to Selectel Cloud Storage SSL Certificates page.
 
 ```
+sudo chmod 777 your_cert_name/
+
 cd /home/yourpath/your_cert_name
 
 cat fullchain1.pem privkey1.pem > your_cert.pem
