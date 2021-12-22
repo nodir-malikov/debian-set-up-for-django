@@ -297,7 +297,13 @@ For each of the domain specified, create the TXT record with the values generate
 Then copy key files to your directory:
 
 ```
-sudo cp -r /etc/letsencrypt/archive/yourdomain /home/yourpath
+sudo cp -r /etc/letsencrypt/archive/your_cert_name /home/yourpath
 ```
 
 Now you must to concatinate Fullchain and Privatekey files to one smth.pem file and upload to Selectel Cloud Storage SSL Certificates page.
+
+```
+cd /home/yourpath/your_cert_name
+
+cat fullchain1.pem privkey1.pem > your_cert.pem
+```
