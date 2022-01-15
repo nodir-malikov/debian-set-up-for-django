@@ -83,6 +83,8 @@ Configure some needed aliases:
 vim ~/.zshrc
     alias cls="clear"
     export PATH=$PATH:/home/www/.python/bin
+
+cd
 ```
 Then run `. ~/.zshrc`
 Now python3.10 in `/home/www/.python/bin/python3.10`. Update pip:
