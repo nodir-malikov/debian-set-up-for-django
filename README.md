@@ -12,6 +12,11 @@ sudo adduser www
 sudo usermod -aG sudo www
 ```
 
+Switch to www:
+```
+su - www
+```
+
 Update repositories and install some initial needed packages:
 
 ```
