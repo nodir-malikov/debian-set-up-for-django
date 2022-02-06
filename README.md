@@ -438,4 +438,18 @@ find $backupfolder -mtime +$keep_day -delete
 ```
 You can schedule this script to run regularly as shown here, but instead of calling pg_dump, specify the path to the script.
 
+And don't forget to add user to **mail** group:
+```
+sudo usermod -aG mail youruser
+```
 
+Also add `.mailrc` file with following parameters:
+```
+set smtp-use-starttls
+set ssl-verify=ignore
+set smtp=smtp://smtp.yandex.ru:465
+set smtp-auth=yourmail@yandex.ru
+set smtp-auth-user=yourmail@yandex.ru
+set smtp-auth-password=2adv1q31v8a7
+set from="Mail (My Server)"
+```
