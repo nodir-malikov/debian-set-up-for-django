@@ -333,18 +333,30 @@ In all the examples below, the postgres user will be utilized for working with p
 **Minimal solution**
 To perform a backup with this utility, just call it and specify the destination file:
 
-```su - postgres```
-```pg_dump -U postgres db_name | gzip > backup_file.gz```
+```
+su - postgres
+```
+```
+pg_dump -U postgres db_name | gzip > backup_file.gz
+```
 You can add a cron job to run backups regularly. To this end, follow the steps below:
 
 Create a backup storage folder
-```sudo mkdir -p /backups/postgresql```
+```
+sudo mkdir -p /backups/postgresql
+```
 Provide the postgres user permissions to the directory
-```sudo chown postgres /backups/postgresql```
+```
+sudo chown postgres /backups/postgresql
+```
 Set the PostgreSQL user
-```su - postgres```
+```
+su - postgres
+```
 Open crontab by running the command
-```crontab -e```
+```
+crontab -e
+```
 Add this line at the end, replacing db_name with the name of your database
 ```
 0 0 * * 0 pg_dump -U postgres db_name | gzip > /backups/postgresql/db_name.gz
@@ -354,11 +366,17 @@ This way, a backup will be performed on your server at midnight on Saturday. Thi
 Run the following commands to restore the database.
 
 Set the PostgreSQL user
-```su - postgresl```
+```
+su - postgresl
+```
 Recreate the database if it exists
-```psql -c "drop database t1" && psql -c "create database t1;"```
+```
+psql -c "drop database t1" && psql -c "create database t1;"
+```
 Restore the database from the archive
-```gunzip -c /backups/postgresql/db_name.gz | psql db_name```
+```
+gunzip -c /backups/postgresql/db_name.gz | psql db_name
+```
 
 
 **Extended solution**
@@ -373,11 +391,17 @@ The official PostgreSQL wiki offers a good script for solving these tasks. Howev
 
 To create backups with email notifications, you can use the script provided below. But before that, you need to install postfix mailutils. These are the steps to do this in Ubuntu:
 
-```sudo apt-get update```
-```sudo apt-get install postfix mailutils```
+```
+sudo apt-get update
+```
+```
+sudo apt-get install postfix mailutils
+```
 Also, please note that this script must be run by the postgres user. To log in under this user, run the command:
 
-```su - postgres```
+```
+su - postgres
+```
 The most basic method for running the bash script for regular backups is shown below. In the beginning of the script, specify the backup storage directory, email notification address, and backup storage period.
 
 ```
