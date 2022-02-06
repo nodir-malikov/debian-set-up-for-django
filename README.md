@@ -316,3 +316,102 @@ cd /home/yourpath/your_cert_name
 
 cat fullchain1.pem privkey1.pem > your_cert.pem
 ```
+
+
+===================================================
+
+
+## How to Automate PostgreSQL Database Backups in Linux
+April 24, 2020 by Omelchenko Alexander
+The solutions that are mentioned in this article work for any Linux distribution: Ubuntu, Red Hat, Open SUSE, CentOS, Debian, Oracle Linux, etc. However, the package installation commands may differ slightly.
+
+The question of regular backups eventually comes up for any database management system. PostgreSQL is no exception. As a rule, the pg_dump utility, which is part of the PostgreSQL client, is used to create a hot backup.
+
+
+In all the examples below, the postgres user will be utilized for working with pg_dump. You can specify a different user by using pg_dump -U <username>, and the password can be transferred with the environment variable PGPASSWORD=<password>. If you plan to connect to a non-local server, use the -h parameter to specify the host name.
+
+**Minimal solution**
+To perform a backup with this utility, just call it and specify the destination file:
+
+```su - postgres```
+```pg_dump -U postgres db_name | gzip > backup_file.gz```
+You can add a cron job to run backups regularly. To this end, follow the steps below:
+
+Create a backup storage folder
+```sudo mkdir -p /backups/postgresql```
+Provide the postgres user permissions to the directory
+```sudo chown postgres /backups/postgresql```
+Set the PostgreSQL user
+```su - postgres```
+Open crontab by running the command
+```crontab -e```
+Add this line at the end, replacing db_name with the name of your database
+```
+0 0 * * 0 pg_dump -U postgres db_name | gzip > /backups/postgresql/db_name.gz
+```
+This way, a backup will be performed on your server at midnight on Saturday. This is the most basic solution to a backup task.
+
+Run the following commands to restore the database.
+
+Set the PostgreSQL user
+```su - postgresl```
+Recreate the database if it exists
+```psql -c "drop database t1" && psql -c "create database t1;"```
+Restore the database from the archive
+```gunzip -c /backups/postgresql/db_name.gz | psql db_name```
+
+
+**Extended solution**
+A good solution should at least encompass the following aspects:
+
+• Creating a backup with a unique name
+• File compression
+• Encrypting the compressed file
+• Receiving email notifications concerning backup results
+• Deleting old backups
+The official PostgreSQL wiki offers a good script for solving these tasks. However, the disadvantage of this script is the lack of email notifications.
+
+To create backups with email notifications, you can use the script provided below. But before that, you need to install postfix mailutils. These are the steps to do this in Ubuntu:
+
+```sudo apt-get update```
+```sudo apt-get install postfix mailutils```
+Also, please note that this script must be run by the postgres user. To log in under this user, run the command:
+
+```su - postgres```
+The most basic method for running the bash script for regular backups is shown below. In the beginning of the script, specify the backup storage directory, email notification address, and backup storage period.
+
+```
+# Database name
+db_name=pagila
+# Backup storage directory 
+backupfolder=~/postgresql/backups
+# Notification email address 
+recipient_email=<username@mail.com>
+# Number of days to store the backup 
+keep_day=30
+sqlfile=$backupfolder/all-database-$(date +%d-%m-%Y_%H-%M-%S).sql
+zipfile=$backupfolder/all-database-$(date +%d-%m-%Y_%H-%M-%S).zip
+#create backup folder
+mkdir -p $backupfolder
+# Create a backup
+if pg_dump $db_name > $sqlfile ; then
+   echo 'Sql dump created'
+else
+   echo 'pg_dump return non-zero code' | mailx -s 'No backup was created!' $recipient_email
+   exit
+fi
+# Compress backup 
+if gzip -c $sqlfile > $zipfile; then
+   echo 'The backup was successfully compressed'
+else
+   echo 'Error compressing backup' | mailx -s 'Backup was not created!' $recipient_email
+   exit
+fi
+rm $sqlfile 
+echo $zipfile | mailx -s 'Backup was successfully created' $recipient_email
+# Delete old backups 
+find $backupfolder -mtime +$keep_day -delete
+```
+You can schedule this script to run regularly as shown here, but instead of calling pg_dump, specify the path to the script.
+
+
