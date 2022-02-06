@@ -8,7 +8,7 @@ In this guide we will set up clean Debian server for Python and Django projects.
 
 Connect through SSH to remote Debian server and create user 'www' if not exists
 ```
-sudo adduser www
+sudo adduser www ; \
 sudo usermod -aG sudo www
 ```
 
