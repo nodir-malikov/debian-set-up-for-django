@@ -463,22 +463,42 @@ set from="Mail (My Server)"
 
 
 **Install CyberDuck**
+
 Add repositories to sources.list
+
 ```
 echo 'deb https://s3.amazonaws.com/repo.deb.cyberduck.io nightly main' | sudo tee -a /etc/apt/sources.list
 echo 'deb https://s3.amazonaws.com/repo.deb.cyberduck.io stable main' | sudo tee -a /etc/apt/sources.list
 ```
+
 Add key
+
 ```
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FE7097963FEFBE72
 ```
+
 Run this
+
 ```
 sudo apt-get update
 sudo apt-get install duck
 ```
 
+Login as postgres
+
+```
+su - postgres
+```	
+
+Create folder
+
+```
+mkdir scripts
+cd scripts
+```
+
 Create myscript.sh
+
 ```
 SWIFT_USERNAME=123456_cyberduck                 # cloud user username
 SWIFT_PASSWORD=hY21313311                       # cloud user pwd
@@ -499,3 +519,18 @@ Test it
 ```
 . myscript.sh
 ```
+
+Edit crontab
+```
+crontab -e
+```
+
+Add to crontab
+
+For example at 23:30 everyday 
+
+```
+30 23 * * * /var/lib/postgresql/scripts/myscript.sh >> /var/lib/postgresql/scripts/myscript.log 2>&1
+```
+
+That's all!
