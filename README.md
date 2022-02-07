@@ -534,3 +534,6 @@ For example at 23:30 everyday
 ```
 
 That's all!
+Additionally:
+Post about this - https://habr.com/ru/company/selectel/blog/254053/
+CyberDuck profile config file - https://static.selectel.ru/kb/selectel-storage.cyberduckprofile (Optional. I didn't have any problem without this) 
