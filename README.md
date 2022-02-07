@@ -503,7 +503,7 @@ Create myscript.sh
 SWIFT_USERNAME=123456_cyberduck                 # cloud user username
 SWIFT_PASSWORD=hY21313311                       # cloud user pwd
 SWIFT_AUTH_URL=auth.selcdn.ru                   # default do not touch
-BACKUP_PATH=/MyContainer/pgbackup/              # /<container_name>/<your_path>
+BACKUP_PATH=MyContainer/pgbackup/              # /<container_name>/<your_path>
 LOCAL_PATH=/var/lib/postgresql/backups/         # your local folder for sync
 
 # ENTER first input and say no with printf '\nn\n' then run sync cmd
