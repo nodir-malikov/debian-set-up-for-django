@@ -453,3 +453,49 @@ set smtp-auth-user=yourmail@yandex.ru
 set smtp-auth-password=2adv1q31v8a7
 set from="Mail (My Server)"
 ```
+
+
+
+=== BONUS ===
+
+
+## How to upload/sync folder of backups with SELECTEL CLOUD STORAGE using CyberDuck
+
+
+**Install CyberDuck**
+Add repositories to sources.list
+```
+echo 'deb https://s3.amazonaws.com/repo.deb.cyberduck.io nightly main' | sudo tee -a /etc/apt/sources.list
+echo 'deb https://s3.amazonaws.com/repo.deb.cyberduck.io stable main' | sudo tee -a /etc/apt/sources.list
+```
+Add key
+```
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys FE7097963FEFBE72
+```
+Run this
+```
+sudo apt-get update
+sudo apt-get install duck
+```
+
+Create myscript.sh
+```
+SWIFT_USERNAME=123456_cyberduck                 # cloud user username
+SWIFT_PASSWORD=hY21313311                       # cloud user pwd
+SWIFT_AUTH_URL=auth.selcdn.ru                   # default do not touch
+BACKUP_PATH=/MyContainer/pgbackup/              # /<container_name>/<your_path>
+LOCAL_PATH=/var/lib/postgresql/backups/         # your local folder for sync
+
+# ENTER first input and say no with printf '\nn\n' then run sync cmd
+printf '\nn\n' | duck --synchronize swift://$SWIFT_USERNAME@$SWIFT_AUTH_URL/$BACKUP_PATH $LOCAL_PATH -p $SWIFT_PASSWORD -q
+```
+
+Run chmod
+```
+chmod +x myscript.sh
+```
+
+Test it
+```
+. myscript.sh
+```
