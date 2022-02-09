@@ -507,7 +507,8 @@ BACKUP_PATH=MyContainer/pgbackup/              # /<container_name>/<your_path>
 LOCAL_PATH=/var/lib/postgresql/backups/         # your local folder for sync
 
 # ENTER first input and say no with printf '\nn\n' then run sync cmd
-printf '\nn\n' | duck --synchronize swift://$SWIFT_USERNAME@$SWIFT_AUTH_URL/$BACKUP_PATH $LOCAL_PATH -p $SWIFT_PASSWORD -q
+# We use absolute path of duck package to run it because crontab may not found it - /opt/duck/bin/duck
+printf '\nn\n' | /opt/duck/bin/duck --synchronize swift://$SWIFT_USERNAME@$SWIFT_AUTH_URL/$BACKUP_PATH $LOCAL_PATH -p $SWIFT_PASSWORD -q
 ```
 
 Run chmod
@@ -530,7 +531,7 @@ Add to crontab
 For example at 23:30 everyday 
 
 ```
-30 23 * * * /var/lib/postgresql/scripts/myscript.sh >> /var/lib/postgresql/scripts/myscript.log 2>&1
+30 23 * * * (/bin/date && /var/lib/postgresql/scripts/myscript.sh) >> /var/lib/postgresql/scripts/myscript.log 2>&1
 ```
 
 That's all!
