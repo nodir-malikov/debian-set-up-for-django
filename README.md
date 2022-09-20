@@ -435,7 +435,7 @@ mkdir -p "$backup_folder"
 # Create a backup
 
 if pg_dump $db_name > $sqlfile ; then
-   echo "Sql dump created"
+   echo "Sql dump created for $database"
 else
    echo "pg_dump return non-zero code" | mailx -s "No backup was created for $database!" $recipient_email
    exit
@@ -443,14 +443,14 @@ fi
 
 # Compress backup
 if gzip -c $sqlfile > $zipfile; then
-   echo "The backup was successfully compressed"
+   echo "The backup was successfully compressed for $database"
 else
    echo "Error compressing backup" | mailx -s "Backup was not created for $database!" $recipient_email
    exit
 fi
 
 rm $sqlfile
-echo $zipfile | mailx -s "Backup was successfully created" $recipient_email
+echo $zipfile | mailx -s "Backup was successfully created for $database" $recipient_email
 
 # Delete old backups
 find $backup_folder -mtime +$keep_day -delete
