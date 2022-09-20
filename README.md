@@ -402,40 +402,61 @@ Also, please note that this script must be run by the postgres user. To log in u
 ```
 su - postgres
 ```
+
+
 The most basic method for running the bash script for regular backups is shown below. In the beginning of the script, specify the backup storage directory, email notification address, and backup storage period.
 
+
 ```
+#!/bin/sh
+
+# parse database name and email recipient from arguments
+database=$1 # first argument
+email=$2 # second argument
+
 # Database name
-db_name=pagila
-# Backup storage directory 
-backupfolder=~/postgresql/backups
-# Notification email address 
-recipient_email=<username@mail.com>
-# Number of days to store the backup 
-keep_day=30
-sqlfile=$backupfolder/all-database-$(date +%d-%m-%Y_%H-%M-%S).sql
-zipfile=$backupfolder/all-database-$(date +%d-%m-%Y_%H-%M-%S).zip
+db_name=$database
+
+# Backup storage directory
+backup_folder=~/backups/$database
+
+# Notification email address
+recipient_email=$email
+
+# Number of days to store the backup
+keep_day=10
+
+sqlfile=$backup_folder/$database-$(date +%d-%m-%Y_%H-%M-%S).sql
+zipfile=$backup_folder/$database-$(date +%d-%m-%Y_%H-%M-%S).zip
+
 #create backup folder
-mkdir -p $backupfolder
+mkdir -p "$backup_folder"
+
 # Create a backup
+
 if pg_dump $db_name > $sqlfile ; then
-   echo 'Sql dump created'
+   echo "Sql dump created"
 else
-   echo 'pg_dump return non-zero code' | mailx -s 'No backup was created!' $recipient_email
+   echo "pg_dump return non-zero code" | mailx -s "No backup was created for $database!" $recipient_email
    exit
 fi
-# Compress backup 
+
+# Compress backup
 if gzip -c $sqlfile > $zipfile; then
-   echo 'The backup was successfully compressed'
+   echo "The backup was successfully compressed"
 else
-   echo 'Error compressing backup' | mailx -s 'Backup was not created!' $recipient_email
+   echo "Error compressing backup" | mailx -s "Backup was not created for $database!" $recipient_email
    exit
 fi
-rm $sqlfile 
-echo $zipfile | mailx -s 'Backup was successfully created' $recipient_email
-# Delete old backups 
-find $backupfolder -mtime +$keep_day -delete
+
+rm $sqlfile
+echo $zipfile | mailx -s "Backup was successfully created" $recipient_email
+
+# Delete old backups
+find $backup_folder -mtime +$keep_day -delete
 ```
+
+
 You can schedule this script to run regularly as shown here, but instead of calling pg_dump, specify the path to the script.
 
 And don't forget to add user to **mail** group:
