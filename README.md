@@ -270,7 +270,7 @@ NGINX CONFIG EXAMPLE:
 ```
 server {
 
-        access_log /var/log/nginx/xabardor.log;
+        access_log /var/log/nginx/x.log;
 
         root /var/www/html;
 
